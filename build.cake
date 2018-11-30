@@ -2,6 +2,8 @@
 
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
+var nugetApiKey = Argument<string>("NugetApiKey", "");
+var nugetPushUrl = Argument("NugetPushUrl", "");
 var outputDir = Directory("./output");
 #load "./src/utilities.cake"
  
@@ -35,6 +37,23 @@ Task("Pack")
         NuGetPack(file, new NuGetPackSettings {
             OutputDirectory = outputDir,
             Version = gitVersion.NuGetVersionV2
+        });
+    }
+});
+
+Task("Push")
+    .Does(() =>
+{
+    if (string.IsNullOrEmpty(nugetPushUrl) || string.IsNullOrEmpty(nugetPushUrl)) {
+        throw new Exception($"Missing nuget push parameters: url={nugetPushUrl} key=xxxxxx");
+    }
+
+    var files = GetFiles("*.nupkg");
+    foreach(var file in files)
+    {
+        NuGetPush(file, new NuGetPushSettings {
+            Source = nugetPushUrl,
+            ApiKey = nugetApiKey
         });
     }
 });
