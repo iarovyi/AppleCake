@@ -1,5 +1,4 @@
 #tool  "nuget:?package=GitVersion.CommandLine&Version=3.6.5"
-
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
 var nugetApiKey = Argument<string>("NugetApiKey", "");
@@ -7,9 +6,6 @@ var nugetPushUrl = Argument("NugetPushUrl", "");
 var outputDir = Directory("./output");
 #load "./src/utilities.cake"
  
-
-
-
 
 Task("Clean").Does(() => {
     CleanDirectories(outputDir);
@@ -79,8 +75,5 @@ Cake.Common.Tools.GitVersion.GitVersion GetGitVersion(){
             Information("Exit code: {0}", process.GetExitCode());
         }
 
-        // capture version to json
-        return GitVersion(new GitVersionSettings {
-            UpdateAssemblyInfo = true
-        });
+        return GitVersion(new GitVersionSettings { UpdateAssemblyInfo = true });
 }
