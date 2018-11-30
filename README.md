@@ -37,6 +37,9 @@ Task("AnotherTask").Does(() => {
 SkipTask("AnotherTask");
 ```
 
+## Dependencies
+Build Cake should be of version 0.30.0.0+
+
 ## Usage
 
 Script can be coppied and used via reagular import:
