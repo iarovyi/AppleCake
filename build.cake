@@ -1,33 +1,67 @@
-#tool nuget:?package=NUnit.ConsoleRunner&version=3.4.0
+#tool  "nuget:?package=GitVersion.CommandLine&Version=3.6.5"
+
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
-// Define directories.
-var buildDir = Directory("./src/Example/bin") + Directory(configuration);
+var outputDir = Directory("./output");
+#load "./src/utilities.cake"
+ 
 
 
-#load "utilities.cake"
 
-Task("Clean")
-    .Does(() =>
-{
-    //CleanDirectory(buildDir);
-    Information("Default clean");
+
+Task("Clean").Does(() => {
+    CleanDirectories(outputDir);
 });
 
+bool isTaskOverriden = false;
+Task("OldTask").Does(() => {});
+OverrideTask("OldTask", ()=> { isTaskOverriden = true; });
+Task("Test")
+    .IsDependentOn("OldTask")
+    .Does((context) =>
+{
+    if (!isTaskOverriden) {
+        throw new Exception("Test failed: task was not overriden");
+    }
+});
+
+Task("Pack")
+    .Does(() =>
+{
+    var gitVersion = GetGitVersion();
+    var files = GetFiles("*.nuspec");
+    foreach(var file in files)
+    {
+        NuGetPack(file, new NuGetPackSettings {
+            OutputDirectory = outputDir,
+            Version = gitVersion.NuGetVersionV2
+        });
+    }
+});
 
 Task("Default")
     .IsDependentOn("Clean")
-    .Does(() =>
+    .IsDependentOn("Test")
+    .IsDependentOn("Pack")
+    .Does((context) =>
 {
+
 });
-
-
-//SkipTask("Clean");
-OverrideTask("Clean", ()=>{
-    Information("New clean");
-});
-
-var newTask = GetTask("Default");
 
 
 RunTarget(target);
+
+
+
+Cake.Common.Tools.GitVersion.GitVersion GetGitVersion(){
+        using(var process = StartAndReturnProcess("./tools/GitVersion.CommandLine.3.6.5/tools/GitVersion.exe", new ProcessSettings{ Arguments = "/output buildserver" }))
+        {
+            process.WaitForExit();
+            Information("Exit code: {0}", process.GetExitCode());
+        }
+
+        // capture version to json
+        return GitVersion(new GitVersionSettings {
+            UpdateAssemblyInfo = true
+        });
+}

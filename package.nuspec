@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>AppleCake</id>
+    <version>0.0.1</version>
+    <authors>Sergii Iarovyi</authors>
+    <owners>Sergii Iarovyi</owners>
+    <projectUrl>https://github.com/iarovyi/AppleCake</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <title>Apple Cake</title>
+    <description>Yammi build cake extentions</description>
+    <tags>build cake</tags>
+    <frameworkAssemblies />
+    <releaseNotes />
+  </metadata>
+  <files>
+    <file src=".\src\utilities.cake" target="utilities.cake" />
+  </files>
+</package>
