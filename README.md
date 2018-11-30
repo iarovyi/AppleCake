@@ -1,4 +1,6 @@
-# AppleCake
+[![Build status](https://ci.appveyor.com/api/projects/status/0cs93c9c47nh9rql?svg=true)](https://ci.appveyor.com/project/iarovyi/AppleCake)
+
+# Apple Cake
 Apple cake is a set of *Yammi* build cake extentions for managing complex setup.
 In case when there are many similar repositories than it is handy to have a single standard build cake utilities file with certain predefined tasks.
 
