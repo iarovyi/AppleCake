@@ -1,4 +1,5 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/0cs93c9c47nh9rql?svg=true)](https://ci.appveyor.com/project/iarovyi/AppleCake)
+[![MyGet](https://img.shields.io/myget/:iarovyi/v/:AppleCake.svg)](https://www.myget.org/feed/iarovyi/package/nuget/AppleCake)
 
 # Apple Cake
 Apple cake is a set of *Yammi* build cake extentions for managing complex setup.
